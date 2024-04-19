@@ -71,7 +71,7 @@ sd_diff <- sd(differences)
 n <- length(differences)
  
 # t-critical value
-t_critical <- qt(0.95, df = n-1)  # two-tailed, so 0.95 instead of 0.90
+t_critical <- qt(0.95, df = n-1) 
  
 # margin of error
 margin_error <- t_critical * (sd_diff / sqrt(n))
