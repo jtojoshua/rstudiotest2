@@ -1,0 +1,174 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Oblique;\f2\froman\fcharset0 TimesNewRomanPS-BoldMT;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red15\green55\blue78;\red0\green0\blue0;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c5882\c27843\c38039;\cssrgb\c0\c0\c0\c84706;
+}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs32 \cf0 \expnd0\expndtw0\kerning0
+#
+\f1\i probability mean
+\f0\i0 \
+\'a0mean <- 5\
+\'a0sd <-1\
+\'a0n<-25\
+\'a0lowerlimit<-4.7\
+\'a0upperlimit<-5.1\
+\'a0zlower<-(lowerlimit-mean)/(sd/sqrt(n))\
+\'a0zupper<-(upperlimit-mean)/(sd/sqrt(n))\
+\'a0pro<-zupper-zlower\
+pro2<- pnorm(zupper)-pnorm(zlower)\
+\'a0\
+# Given values\
+mu <- 5\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+sigma <- 1\'a0\'a0\'a0\'a0\'a0\'a0\
+n <- 25\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+x1 <- 4.7\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+x2 <- 5.1\
+\'a0\
+# se\
+SEM <- sigma / sqrt(n)\
+\'a0\
+# z-scores\
+z1 <- (x1 - mu) / SEM\
+z2 <- (x2 - mu) / SEM\
+\'a0\
+#z1 and z2\
+p1 <- pnorm(z1)\
+p2 <- pnorm(z2)\
+\'a0\
+# Probability\
+probability <- p2 - p1\
+\'a0\
+# Output the result\
+Probability\
+\'a0\
+# given\
+n <- 30\
+s <- 0.81\
+confidence_level <- 0.96\
+\'a0\
+# dof\
+df <- n - 1\
+\'a0\
+# chi-squared\
+chi2_lower <- qchisq((1 - confidence_level) / 2, df, lower.tail = TRUE)\
+chi2_upper <- qchisq(1 - (1 - confidence_level) / 2, df, lower.tail = TRUE)\
+\'a0\
+# lower and upper\
+variance_lower <- (df * s^2) / chi2_upper\
+variance_upper <- (df * s^2) / chi2_lower\
+\'a0\
+# interval\
+sd_lower <- sqrt(variance_lower)\
+sd_upper <- sqrt(variance_upper)\
+\'a0\
+# Print\
+cat("The 96% confidence ", sd_lower, "and", sd_upper, "ounces.\\n")\
+\'a0\
+# scores\
+pre_test <- c(30, 29, 29, 22, 29, 30, 34, 32, 28, 16)\
+post_test <- c(28, 31, 32, 23, 31, 31, 32, 33, 28, 20)\
+\'a0\
+# Calculate the differences\
+differences <- post_test - pre_test\
+\'a0\
+# mean and d\
+mean_diff <- mean(differences)\
+sd_diff <- sd(differences)\
+\'a0\
+# observations\
+n <- length(differences)\
+\'a0\
+# t-critical value\
+t_critical <- qt(0.95, df = n-1)\'a0 # two-tailed, so 0.95 instead of 0.90\
+\'a0\
+# margin of error\
+margin_error <- t_critical * (sd_diff / sqrt(n))\
+\'a0\
+# confidence interval\
+lower_bound <- mean_diff - margin_error\
+upper_bound <- mean_diff + margin_error\
+\'a0\
+# Print\
+cat("The 90% confidence interval for the mean difference is (", lower_bound, ",", upper_bound, ")\\n")\
+\'a0\
+# Sample proportion\
+p_hat <- 0.30\
+\'a0\
+# z 95% conf\
+z <- qnorm(0.975)\
+\'a0\
+# Standard error of the sample proportion\
+SE <- sqrt((p_hat * (1 - p_hat)) / n)\
+\'a0\
+# Confidence interval\
+CI_lower <- p_hat - z * SE\
+CI_upper <- p_hat + z * SE\
+\'a0\
+# Confidence interval\
+CI <- c(CI_lower, CI_upper)\
+CI\
+\'a0\
+\pard\pardeftab720\sa106\partightenfactor0
+
+\fs37\fsmilli18667 \cf3 #
+\f2\b\fs36 \cf4 density
+\f0\b0\fs37\fsmilli18667 \cf3 \
+f <- function(x) \{\
+\pard\pardeftab720\partightenfactor0
+
+\fs32 \cf0 \'a0 ifelse(x >= 0 & x <= 2, (3/8) * x^2, 0)\
+\}\
+\'a0\
+#Ex\
+E_X <- integrate(function(x) x * f(x), lower = 0, upper = 2)$value\
+E_X\
+\'a0\
+# Var of x\
+E_X2 <- integrate(function(x) x^2 * f(x), lower = 0, upper = 2)$value\
+\'a0\
+# variance\
+var_X <- E_X2 - E_X^2\
+var_X\
+\'a0\
+#med\
+median_X <- uniroot(function(x) F(x) - 0.5, c(0, 2))$root\
+median_X\
+\'a0\
+# Given data\
+n_breast_fed <- 24\
+x_bar_breast_fed <- 15.2\
+s_breast_fed <- 2.2\
+\'a0\
+n_formula <- 32\
+x_bar_formula <- 17.2\
+s_formula <- 1.8\
+\'a0\
+#Welch t-test\
+t_test_result <- t.test(x = x_bar_breast_fed,\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 y = x_bar_formula,\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 alternative = "less",\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 mu = 0,\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 s.x = s_breast_fed,\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 s.y = s_formula,\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 n.x = n_breast_fed,\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 n.y = n_formula)\
+\'a0\
+# results\
+t_test_result\
+\'a0\
+# 95% confidence in\
+ci_result <- t.test(x = rep(x_bar_breast_fed, n_breast_fed),\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 y = rep(x_bar_formula, n_formula),\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 alternative = "two.sided",\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 conf.level = 0.95)\
+\'a0\
+# results\
+ci <- ci_result$conf.int\
+ci\
+}
