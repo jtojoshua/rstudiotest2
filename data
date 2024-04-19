@@ -1,0 +1,153 @@
+#probability mean
+ mean <- 5
+ sd <-1
+ n<-25
+ lowerlimit<-4.7
+ upperlimit<-5.1
+ zlower<-(lowerlimit-mean)/(sd/sqrt(n))
+ zupper<-(upperlimit-mean)/(sd/sqrt(n))
+ pro<-zupper-zlower
+pro2<- pnorm(zupper)-pnorm(zlower)
+ 
+# Given values
+mu <- 5         
+sigma <- 1      
+n <- 25         
+x1 <- 4.7       
+x2 <- 5.1
+ 
+# se
+SEM <- sigma / sqrt(n)
+ 
+# z-scores
+z1 <- (x1 - mu) / SEM
+z2 <- (x2 - mu) / SEM
+ 
+#z1 and z2
+p1 <- pnorm(z1)
+p2 <- pnorm(z2)
+ 
+# Probability
+probability <- p2 - p1
+ 
+# Output the result
+Probability
+ 
+# given
+n <- 30
+s <- 0.81
+confidence_level <- 0.96
+ 
+# dof
+df <- n - 1
+ 
+# chi-squared
+chi2_lower <- qchisq((1 - confidence_level) / 2, df, lower.tail = TRUE)
+chi2_upper <- qchisq(1 - (1 - confidence_level) / 2, df, lower.tail = TRUE)
+ 
+# lower and upper
+variance_lower <- (df * s^2) / chi2_upper
+variance_upper <- (df * s^2) / chi2_lower
+ 
+# interval
+sd_lower <- sqrt(variance_lower)
+sd_upper <- sqrt(variance_upper)
+ 
+# Print
+cat("The 96% confidence ", sd_lower, "and", sd_upper, "ounces.\n")
+ 
+# scores
+pre_test <- c(30, 29, 29, 22, 29, 30, 34, 32, 28, 16)
+post_test <- c(28, 31, 32, 23, 31, 31, 32, 33, 28, 20)
+ 
+# Calculate the differences
+differences <- post_test - pre_test
+ 
+# mean and d
+mean_diff <- mean(differences)
+sd_diff <- sd(differences)
+ 
+# observations
+n <- length(differences)
+ 
+# t-critical value
+t_critical <- qt(0.95, df = n-1)  # two-tailed, so 0.95 instead of 0.90
+ 
+# margin of error
+margin_error <- t_critical * (sd_diff / sqrt(n))
+ 
+# confidence interval
+lower_bound <- mean_diff - margin_error
+upper_bound <- mean_diff + margin_error
+ 
+# Print
+cat("The 90% confidence  (", lower_bound, ",", upper_bound, ")\n")
+ 
+# Sample proportion
+p_hat <- 0.30
+ 
+# z 95% conf
+z <- qnorm(0.975)
+ 
+# Standard error of the sample proportion
+SE <- sqrt((p_hat * (1 - p_hat)) / n)
+ 
+# Confidence interval
+CI_lower <- p_hat - z * SE
+CI_upper <- p_hat + z * SE
+ 
+# Confidence interval
+CI <- c(CI_lower, CI_upper)
+CI
+ 
+#density
+f <- function(x) {
+  ifelse(x >= 0 & x <= 2, (3/8) * x^2, 0)
+}
+ 
+#Ex
+E_X <- integrate(function(x) x * f(x), lower = 0, upper = 2)$value
+E_X
+ 
+# Var of x
+E_X2 <- integrate(function(x) x^2 * f(x), lower = 0, upper = 2)$value
+ 
+# variance
+var_X <- E_X2 - E_X^2
+var_X
+ 
+#med
+median_X <- uniroot(function(x) F(x) - 0.5, c(0, 2))$root
+median_X
+ 
+# Given data
+n_breast_fed <- 24
+x_bar_breast_fed <- 15.2
+s_breast_fed <- 2.2
+ 
+n_formula <- 32
+x_bar_formula <- 17.2
+s_formula <- 1.8
+ 
+#Welch t-test
+t_test_result <- t.test(x = x_bar_breast_fed,
+                        y = x_bar_formula,
+                        alternative = "less",
+                        mu = 0,
+                        s.x = s_breast_fed,
+                        s.y = s_formula,
+                        n.x = n_breast_fed,
+                        n.y = n_formula)
+ 
+# results
+t_test_result
+ 
+# 95% confidence in
+ci_result <- t.test(x = rep(x_bar_breast_fed, n_breast_fed),
+                    y = rep(x_bar_formula, n_formula),
+                    alternative = "two.sided",
+                    conf.level = 0.95)
+ 
+# results
+ci <- ci_result$conf.int
+ci
