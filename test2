@@ -1,3 +1,5 @@
+git config --global delta.line-numbers false; git diff
+
 # find the probability that the mean
 > mean <- 5
 > sd <-1
