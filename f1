@@ -135,6 +135,22 @@ t_critical <- qt(1 - alpha/2, df)
 lower_bound <- coef_age - t_critical * std_error
 upper_bound <- coef_age + t_critical * std_error
 cat("99% Confidence Interval for the Slope: [", lower_bound, ", ", upper_bound, "]\n")
+# Given t-statistic
+t_stat <- -3.124
+
+# Calculate p-value from the t-distribution
+p_value <- 2 * pt(-abs(t_stat), df)  # Two-tailed test
+
+# Print the p-value
+cat("p-value from the t-statistic:", p_value, "\n")
+
+# Determine significance at the 5% level
+if (p_value < 0.05) {
+  cat("significant relationship at the 5% level.\n")
+} else {
+  cat("no significant relationship at the 5% level.\n")
+}
+
 
 f <- function(x, y) { (x + 2 * y) / 42 }
 
