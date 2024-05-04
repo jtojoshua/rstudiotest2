@@ -1,0 +1,164 @@
+# Parameters
+lambda <- 0.6 * 8
+k <- 4
+probability <- dpois(k, lambda)
+print(probability)
+
+# Parameters 
+n <- 6 
+p <- 0.89
+probability_at_most_two <- pbinom(2, n, p)
+print(probability_at_most_two)
+
+# Sample proportion
+sample_proportion <- 0.35
+n <- 144
+confidence_level <- 0.90
+ci <- binom.test(round(sample_proportion * n), n, conf.level = confidence_level)$conf.int
+print(ci)
+
+# Parameters
+mean_chips <- 73.6
+sd_chips <- 5.1
+chips_less_than <- 71
+z_score <- (chips_less_than - mean_chips) / sd_chips
+probability <- pnorm(z_score)
+print(probability)
+
+# ANOVA table values
+DF_vehicle <- 6
+DF_error <- 7
+MS_vehicle <- 70.00
+MS_error <- 43.29
+F_statistic <- MS_vehicle / MS_error
+p_value <- pf(F_statistic, DF_vehicle, DF_error, lower.tail = FALSE)
+cat("F-Statistic: ", F_statistic, "\n")
+cat("P-Value: ", p_value, "\n")
+
+# ANOVA Summary values
+DF_vehicle <- 6
+DF_error <- 7
+MS_vehicle <- 70.00
+MS_error <- 43.29
+F_statistic <- MS_vehicle / MS_error
+p_value <- pf(F_statistic, DF_vehicle, DF_error, lower.tail = FALSE)
+print(p_value)
+
+#hours from midnight
+start_time <- 8 + 45 / 60
+end_time <- 14 + 25 / 60
+total_hours <- 24
+probability_one_day <- (end_time - start_time) / total_hours
+probability_both_days <- probability_one_day^2
+cat("Probability on one day: ", probability_one_day, "\n")
+cat("Probability on both days: ", probability_both_days, "\n")
+
+# Parameters
+t_stat <- -1.36
+df <- 15 - 1 
+p_value <- pt(t_stat, df)
+print(p_value)
+# Define the probabilities
+probabilities <- c(5/8, 1/4, 1/8)
+values_of_A <- c(0.67, 0.61, 0.67) 
+z_scores <- qnorm(values_of_A)
+expected_c <- sum(z_scores * probabilities)
+print(expected_c)
+
+f <- function(x, C) { (C/16) - (x/8) }
+find_C <- function(C) {
+  integral_value <- integrate(f, lower = 0, upper = 4, C = C)$value
+  return(integral_value - 1)}
+C_value <- uniroot(find_C, c(0, 100))$root
+C_value
+
+F_x <- function(x, C) {
+  integrate(f, lower = 0, upper = x, C = C)$value}
+F_at_2 <- F_x(2, C_value)
+F_at_2
+
+E_X <- function(C) {
+  integrate(function(x) { x * ((C/16) - (x/8)) }, lower = 0, upper = 4)$value
+}
+expected_value <- E_X(C_value)
+expected_value
+
+# Calculate E[X^2]
+E_X2 <- function(C) {
+  integrate(function(x) { x^2 * ((C/16) - (x/8)) }, lower = 0, upper = 4)$value
+}
+
+# Calculate variance
+variance_X <- function(C) {
+  ex2 <- E_X2(C)
+  ex <- E_X(C)
+  return(ex2 - ex^2)}
+
+std_dev_X <- function(C) {
+  sqrt(variance_X(C))}
+
+variance <- variance_X(C_value)
+std_dev <- std_dev_X(C_value)
+list(variance = variance, std_dev = std_dev)
+
+Q3 <- function(C) {
+  uniroot(function(x) { F_x(x, C) - 0.75 }, lower = 0, upper = 4)$root
+}
+third_quartile <- Q3(C_value)
+third_quartile
+
+# Data input
+IT <- c(155, 206, 156, 172, 209, 191, 163, 207)
+RR <- c(43, 33, 27, 35, 25, 36, 36, 26)
+GPA <- c(3.0, 2.0, 1.7, 2.5, 2.0, 2.7, 2.6, 1.8)
+
+model_RR <- lm(GPA ~ RR)
+summary(model_RR)
+
+model_IT <- lm(GPA ~ IT)
+summary(model_IT)
+
+# Print R-squared values for comparison
+cat("R-squared for RR model:", summary(model_RR)$r.squared, "\n")
+cat("R-squared for IT model:", summary(model_IT)$r.squared, "\n")
+
+cat("p-value for RR model:", summary(model_RR)$coefficients[2,4], "\n") # Coefficient p-value for RR
+cat("p-value for IT model:", summary(model_IT)$coefficients[2,4], "\n") # Coefficient p-value for IT
+
+# Given values
+coef_age <- -0.428
+std_error <- 0.137
+n <- 60
+alpha <- 0.01
+df <- n - 2
+t_critical <- qt(1 - alpha/2, df)
+lower_bound <- coef_age - t_critical * std_error
+upper_bound <- coef_age + t_critical * std_error
+cat("99% Confidence Interval for the Slope: [", lower_bound, ", ", upper_bound, "]\n")
+
+f <- function(x, y) { (x + 2 * y) / 42 }
+
+prob_a <- sum(sapply(0:2, function(x) f(x, 1)))
+
+#X + Y = 4
+prob_b <- sum(sapply(0:3, function(x) {
+  y <- 4 - x
+  if (y >= 0 & y <= 2) f(x, y) else 0
+}))
+#X + Y
+expected_X_plus_Y <- sum(sapply(0:3, function(x) {
+  sum(sapply(0:2, function(y) {
+    (x + y) * f(x, y)
+  }))
+}))
+#XY
+expected_XY <- sum(sapply(0:3, function(x) {
+  sum(sapply(0:2, function(y) {
+    x * y * f(x, y)
+  }))
+}))
+cat("P(X <= 2, Y = 1):", prob_a, "\n")
+cat("P(X + Y = 4):", prob_b, "\n")
+cat("E[X + Y]:", expected_X_plus_Y, "\n")
+cat("E[XY]:", expected_XY, "\n")
+
